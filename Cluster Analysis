@@ -1,0 +1,76 @@
+rm(list=ls())
+setwd("~/R/Social Science/Cluster Analysis")
+
+wine <- read.csv("wine.csv")
+
+# Scatter Plot
+
+str(wine)
+
+plot(Alcohol ~ Color.int, wine)
+# with(wine,text(Alcohol~Color.int, labels=wine, pos=4))
+
+# Normalization
+
+z <- wine[,-c(1,1)]
+m <- apply(z,2,mean)
+s <- apply(z,2,sd)
+zz <- scale(z,m,s)
+
+# calculating Euclidean distance
+
+distance <- dist(zz)
+print(distance,digit=3)
+
+# Cluster Dendrogram with Complete Linkage
+
+hc.c <- hclust(distance)
+plot(hc.c, labels=wine$wine)
+plot(hc.c, hang = -1)
+
+# Cluster Dendrogram with Average Linkage
+
+hc.a <- hclust(distance, method = "average")
+plot(hc.a, hang=-1)
+
+# Cluster Membership
+
+member.c <- cutree(hc.c,3)
+member.a <- cutree(hc.a,3)
+table(member.c,member.a)
+
+# Cluster Means
+aggregate(z,list(member.c),mean)
+aggregate(wine[,-c(1,1)],list(member.c),mean)
+
+#Silhouette Plot
+library(cluster)
+plot(silhouette(cutree(hc.c,3),distance))
+
+#Scree Plot
+wss <- (nrow(z)-1)*sum(apply(z,2,var))
+for(i in 2:20) wss[i] <- sum(kmeans(z, centers=i)$withinss)
+plot(1:20, wss, type="b", xlab="Number of Clusters", ylab="Within Group SS")
+
+#K-Means Clustering
+kc <- kmeans(zz,3)
+plot(Alcohol ~ Color.int, wine, col=kc$cluster)
+
+
+
+# 이하는 Misterious
+
+Wine.f <- wine
+Wine.f$Wine <- NULL
+# View(Wine.f)
+Wine.stand <- scale(Wine.f[-1])
+# View(Wine.stand)
+
+results <- kmeans(Wine.stand,3)
+results
+
+print(results,digit=3)
+attributes(results)
+results$centers
+
+table(wine$Wine, results$cluster)
