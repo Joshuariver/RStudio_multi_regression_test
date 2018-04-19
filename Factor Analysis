@@ -1,0 +1,38 @@
+# 주성분 요인법을 이용한 요인분석
+
+rm(list=ls())
+
+setwd("D:/Work/HRD/B2B/2018/01.Plan/07.리더십모델링/02.데이터 확보")
+
+# 데이터 읽기
+
+sx <- read.csv("leadership evaluation data.csv")
+aq1 <- sx[,c(12:25)]
+
+head(aq1)
+str(aq1)
+summary(aq1)
+
+# install.packages(c("psych","GPArotation"))
+
+library(psych)
+library(GPArotation)
+
+aq1.factor <- principal(aq1, rotate="none")
+names(aq1.factor)
+
+
+aq1.factor$values
+aq1.factor$uniquenesses
+
+plot(aq1.factor$values, type="b")
+
+# 직교회전 (Varimax) 적용
+# 요인적재량 (factor loading value) 가 1 이상 되는 변수를 기준으로 적용하면 2개의 요인으로 분류
+# 정도경영 factor 를 배제하고 하는 것도 검토
+
+aq1.Varimax = principal(aq1, nfactors = 5, rotate="varimax")
+
+aq1.Varimax
+
+biplot(aq1.Varimax)
