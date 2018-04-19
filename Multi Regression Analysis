@@ -1,0 +1,135 @@
+# 다중상관관계분석
+# 일단 전체 B2B 인원 대상
+
+rm(list=ls())
+
+# aq1 <- airquality[,c(1:4)]
+
+# 성과평가 결과와 상사+동료+부하평가 결과의 평균값의 리더십 평가결과와의 다중 상관관계 분석
+
+sx <- read.csv("leadership evaluation data s.csv")
+aq1 <- sx[,c(3,12:25)]
+
+cor(aq1)
+aq2 <- na.omit(aq1)
+cor(aq2)
+plot(aq2)
+pairs(aq2, panel=panel.smooth)
+
+# install.packages("PerformanceAnalytics")
+library(PerformanceAnalytics)
+chart.Correlation(aq2, histogram=TRUE, pch=19)
+
+# install.packages("corrplot")
+library(corrplot)
+aq.cor <- cor(aq2)
+aq.cor
+corrplot(aq.cor, method="number")
+corrplot(aq.cor, method="ellipse")
+
+boxplot(aq.cor)
+
+
+# 성과평가 결과와 본인의 리더십 평가결과와의 다중 상관관계 분석
+# s 는 Self 에서 차용
+
+sx <- read.csv("leadership evaluation data s.csv")
+sq1 <- sx[,c(3,26:39)]
+
+cor(sq1)
+sq2 <- na.omit(sq1)
+cor(sq2)
+plot(sq2)
+pairs(sq2, panel=panel.smooth)
+
+# install.packages("PerformanceAnalytics")
+library(PerformanceAnalytics)
+chart.Correlation(sq2, histogram=TRUE, pch=19)
+
+# install.packages("corrplot")
+library(corrplot)
+sq.cor <- cor(sq2)
+sq.cor
+corrplot(sq.cor, method="number")
+corrplot(sq.cor, method="ellipse")
+
+boxplot(sq.cor)
+
+
+# 성과평가 결과와 동료의 리더십 평가결과와의 다중 상관관계 분석
+# c 는 Colleague 에서 차용
+
+sx <- read.csv("leadership evaluation data s.csv")
+cq1 <- sx[,c(3,40:53)]
+
+cor(cq1)
+cq2 <- na.omit(cq1)
+cor(cq2)
+plot(cq2)
+pairs(cq2, panel=panel.smooth)
+
+# install.packages("PerformanceAnalytics")
+library(PerformanceAnalytics)
+chart.Correlation(cq2, histogram=TRUE, pch=19)
+
+# install.packages("corrplot")
+library(corrplot)
+cq.cor <- cor(cq2)
+cq.cor
+corrplot(cq.cor, method="number")
+corrplot(cq.cor, method="ellipse")
+
+boxplot(cq.cor)
+
+
+# 성과평가 결과와 부하의 리더십 평가결과와의 다중 상관관계 분석
+#  bq 는 suBordinate 에서 차용 
+
+sx <- read.csv("leadership evaluation data s.csv")
+bq1 <- sx[,c(3,54:67)]
+
+cor(bq1)
+bq2 <- na.omit(bq1)
+cor(bq2)
+plot(bq2)
+pairs(bq2, panel=panel.smooth)
+
+# install.packages("PerformanceAnalytics")
+library(PerformanceAnalytics)
+chart.Correlation(bq2, histogram=TRUE, pch=19)
+
+# install.packages("corrplot")
+library(corrplot)
+bq.cor <- cor(bq2)
+bq.cor
+corrplot(bq.cor, method="number")
+corrplot(bq.cor, method="ellipse")
+
+boxplot(bq.cor)
+
+
+# 성과평가 결과와 상사의 리더십 평가결과와의 다중 상관관계 분석
+#  suq 는 SUpervisor 에서 차용 
+
+sx <- read.csv("leadership evaluation data.csv")
+suq1 <- sx[,c(3,68:81)]
+
+cor(suq1)
+suq2 <- na.omit(suq1)
+cor(suq2)
+plot(suq2)
+pairs(suq2, panel=panel.smooth)
+
+# install.packages("PerformanceAnalytics")
+library(PerformanceAnalytics)
+chart.Correlation(suq2, histogram=TRUE, pch=19)
+
+# install.packages("corrplot")
+library(corrplot)
+suq.cor <- cor(suq2)
+suq.cor
+corrplot(suq.cor, method="number")
+corrplot(suq.cor, method="ellipse")
+
+boxplot(suq.cor)
+
