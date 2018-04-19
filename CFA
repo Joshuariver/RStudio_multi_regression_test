@@ -1,0 +1,41 @@
+# 확인적 요인분석 예
+
+
+rm(list=ls())
+
+library(lavaan)
+library(semPlot)
+setwd("D:/Work/HRD/B2B/2018/01.Plan/07.리더십모델링/02.데이터 확보")
+
+sx <- read.csv("leadership evaluation data.csv")
+# Benz<-read.csv("benz.csv")
+model<- 'per =~ x1 + x2 + x7
+gov =~ x3 + x5 + x6
+vis =~ x8 + x11 + x12 + x14
+gro =~ x9 + x10 + x13
+gov ~ per + vis + gro
+y1 ~ gov'
+
+fit<-sem(model, data=sx)
+
+# Model fit 에 대한 검증
+anova(fit)
+
+summary(fit, standardized=TRUE, fit.measures=TRUE)
+diagram<-semPlot::semPaths(fit,
+                           whatLabels="std", intercepts=FALSE, style="lisrel",
+                           nCharNodes=0,
+                           nCharEdges=0,
+                           curveAdjacent = TRUE,title=TRUE, layout="tree2",curvePivot=TRUE)
+plot(diagram)
+
+
+# Model 에 대한 다른 적합도 수치는 다음과 같이 확인할 수 있다. CFI, GIF, AGFI, RMSEA, RMR..  
+# 모델 적합도 평가를 위한 거의 모든 종류의 특성값을 알 수 있다.
+
+fitmeasures(fit)
+
+# AMO에서 제공하는 모델 파라메터와 modification index 역시 제공한다.
+# 아래는 각 path 의 베타값 , 분산  과 z 값
+
+parameterestimates(fit, ci = TRUE, boot.ci.type = "norm" )
